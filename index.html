@@ -92,6 +92,83 @@
     // Calculate and update on page load
     calculateAndUpdate();
 </script>
+<?php
+function calculateDailyInterest($loanAmount, $annualInterestRate, $startDate) {
+    // Implement your calculation logic here
+    // Return the calculated values as JSON
+    return json_encode($calculatedData);
+}
+
+// Example usage:
+$loanAmount = 454000000;
+$annualInterestRate = 9;
+$startDate = strtotime('2024-02-16');
+
+echo calculateDailyInterest($loanAmount, $annualInterestRate, $startDate);
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Recurring Interest Calculator</title>
+    <style>
+        /* Your styles here */
+    </style>
+</head>
+<body>
+
+<div id="calculator-container">
+    <h1>Daily Recurring Interest Calculator</h1>
+    <label for="loanAmount">Loan Amount: $454,000,000.00</label>
+
+    <label for="interestRate">Annual Interest Rate: 9%</label>
+
+    <label for="startDate">Start Date: February 16, 2024</label>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    async function fetchAndDisplayData() {
+        try {
+            const response = await fetch('calculation.php'); // Adjust the URL to your server-side script
+            const data = await response.json();
+
+            // Update the DOM with the fetched data
+            document.getElementById('result').innerHTML = generateTable(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    function formatCurrency(amount) {
+        return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+
+    function generateTable(data) {
+        let resultHTML = '<table>';
+        resultHTML += '<tr><th>Date</th><th>Principal</th><th>Interest</th><th>Total Amount Due Today</th></tr>';
+
+        data.forEach(entry => {
+            resultHTML += `<tr><td>${entry.date}</td><td>${formatCurrency(entry.totalLoanAmount)}</td><td>${formatCurrency(entry.dailyInterest)}</td><td>${formatCurrency(entry.totalLoanAmount + entry.totalDailyInterest)}</td></tr>`;
+        });
+
+        resultHTML += '</table>';
+        return resultHTML;
+    }
+
+    // Initial fetch on page load
+    fetchAndDisplayData();
+
+    // Schedule periodic updates (e.g., every 24 hours)
+    setInterval(fetchAndDisplayData, 24 * 60 * 60 * 1000);
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
