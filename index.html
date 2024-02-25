@@ -13,7 +13,7 @@
             text-align: center;
         }
         #calculator-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 50px auto;
             background-color: #fff;
             padding: 20px;
@@ -24,24 +24,23 @@
             display: block;
             margin-bottom: 8px;
         }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4caf50;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
         #result {
             margin-top: 20px;
             font-size: 18px;
+            text-align: left;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -49,32 +48,49 @@
 
 <div id="calculator-container">
     <h1>Daily Recurring Interest Calculator</h1>
-    <label for="loanAmount">Loan Amount ($):</label>
-    <input type="number" id="loanAmount" placeholder="Enter loan amount">
+    <label for="loanAmount">Loan Amount: $454,000,000.00</label>
 
-    <label for="interestRate">Annual Interest Rate (%):</label>
-    <input type="number" id="interestRate" placeholder="Enter annual interest rate">
+    <label for="interestRate">Annual Interest Rate: 9%</label>
 
-    <button onclick="calculateDailyInterest()">Calculate Daily Interest</button>
+    <label for="startDate">Start Date: February 17, 2024</label>
 
     <div id="result"></div>
 </div>
 
 <script>
-    function calculateDailyInterest() {
-        const loanAmount = parseFloat(document.getElementById('loanAmount').value);
-        const annualInterestRate = parseFloat(document.getElementById('interestRate').value);
+    function formatCurrency(amount) {
+        return '$' + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
 
-        if (isNaN(loanAmount) || isNaN(annualInterestRate)) {
-            alert("Please enter valid numbers for loan amount and interest rate.");
-            return;
+    function calculateAndUpdate() {
+        const loanAmount = 454000000; // Set loan amount to $454,000,000.00
+        const annualInterestRate = 9; // Set annual interest rate to 9%
+        const startDate = new Date('2024-02-17');
+        const currentDate = new Date();
+
+        let totalLoanAmount = loanAmount;
+        let totalDailyInterest = 0;
+
+        let resultHTML = '<table>';
+        resultHTML += '<tr><th>Date</th><th>Principal</th><th>Interest</th><th>Total Amount Due Today</th></tr>';
+
+        // Start calculations from February 17th
+        for (let date = new Date(startDate); date < currentDate; date.setDate(date.getDate() + 1)) {
+            const dailyInterestRate = annualInterestRate / 365 / 100;
+            const dailyInterest = totalLoanAmount * dailyInterestRate;
+            totalLoanAmount += dailyInterest;
+            totalDailyInterest += dailyInterest;
+
+            resultHTML += `<tr><td>${date.toLocaleDateString()}</td><td>${formatCurrency(totalLoanAmount)}</td><td>${formatCurrency(dailyInterest)}</td><td>${formatCurrency(totalLoanAmount + totalDailyInterest)}</td></tr>`;
         }
 
-        const dailyInterestRate = annualInterestRate / 365 / 100;
-        const dailyInterest = loanAmount * dailyInterestRate;
+        resultHTML += '</table>';
 
-        document.getElementById('result').innerHTML = `<p>Your daily recurring interest is: $${dailyInterest.toFixed(2)}</p>`;
+        document.getElementById('result').innerHTML = resultHTML;
     }
+
+    // Calculate and update on page load
+    calculateAndUpdate();
 </script>
 
 </body>
