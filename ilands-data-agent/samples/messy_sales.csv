@@ -1,0 +1,8 @@
+Order ID, Customer Name ,Order Date,Amount ($),Region,Notes,
+1001,  Alice Smith ,03/14/2024,"$1,250.00",North,,
+1002,Bob Jones,2024-03-15,980,south,N/A,
+1003,Carol  White,"Mar 16, 2024",(45.50),North,refund,
+,,,,,,
+1001,  Alice Smith ,03/14/2024,"$1,250.00",North,,
+1004,Dan Brown,03/17/2024,TBD,East,null,
+1005,Eve Black,3/18/2024,"2,000",West,-,
