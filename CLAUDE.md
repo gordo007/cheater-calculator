@@ -16,3 +16,8 @@ The owner set these rules. Apply them to every single instruction you give.
 Also: the owner is a novice. Numbered steps, short replies. Windows 8.1,
 Chrome 109 and Firefox 115 (old; some dashboards break in Chrome 109).
 Mouse wheel is broken, so use keyboard keys (End, Home, Page Down) or links.
+
+Design rule for print/product art (owner, 18 Nov): every design gets a thin WHITE outline
+around everything (artwork, letters, numbers), about 10-15 px at screen size (~30 px on a
+4000 px print file), so ONE design works on both dark and light products. No separate
+light/dark versions.
